@@ -22,7 +22,9 @@ is
    -- the Geortzel filter implemented as an IIR filter.
    type Vn2 is
       record
+         -- The previous filter value
          M1: Value;
+         -- The value before that
          M2: Value;
       end record;
    
@@ -43,23 +45,29 @@ is
    -- An array of samples to process
    type Samples is array (Positive range <>) of Value;
    
-   -- Makes a Goertzel filter for the given frequency (F)
-   -- and sampling frequency (Fs)
+   -- Makes a Goertzel filter for the given parameters
+   -- @param F The frequency of the filter
+   -- @param Fs  The sampling frequency of the samples to process
    -- @return the filter made
    function Make(F, Fs: Value) return Filter
      with 
        Pre => (Fs < 100_000.0) and (F < Fs / 2.0) and (Fs > 0.0);
    
-   -- Resets the filter so that we can start it over
+   -- Resets the filter so that we can start it over again.
+   -- @param Flt The filter to reset
    procedure Reset(Flt: in out Filter);
    
-   -- Process the samples using the filter `Flt`, with the resulting
-   -- power of the signal at the filter frequency being put into `Rslt`
+   -- Process the samples using the given filter 
+   -- @param Flt The filter to use
+   -- @param Sample The Samples to process
+   -- @param Rslt The resulting power of the signal at the filter frequency
    procedure Process(Flt: in out Filter; Sample: Samples; Rslt: out Value)
      with
        Pre => (Sample'Length in Sample_Count'Range);
    
    -- Returns the dBm of the given power of a signal
+   -- @param Power The power to convert to dBm
+   -- @result The calculated dBm
    function DBm(Power: Value) return Value 
      with
        Pre => Power > 0.0;

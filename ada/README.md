@@ -17,3 +17,6 @@ case filter will simply "fail". Thus, it's not a big issue.
 
 But, time permitting, we could/should improve and add contracts that
 would enable us to prove no overflow, too.
+
+Adding support for fixed point types would also be interesting, as
+filters are often used on fixed point DSPs.
