@@ -8,5 +8,6 @@ procedure Main is
 begin
    Flt := Goertzel.Make(2000.0, 8000.0);
    Goertzel.Process(Flt, Samples, y);
+   Y := Goertzel.DBm(Y);
    Ada.Text_IO.Put_Line(Y'Image);
 end Main;
